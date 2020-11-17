@@ -11,6 +11,7 @@ contract SupplyChain {
     /* Add a line that creates a public mapping that maps the SKU (a number) to an Item.
       Call this mappings items
     */
+    mapping (uint => Item) public items;
     /* Add a line that creates an enum called State. This should have 4 states
       ForSale
       Sold
@@ -18,7 +19,7 @@ contract SupplyChain {
       Received
       (declaring them in this order is important for testing)
     */
-    enum State{ForSale, Sold, Shipped, Received}
+    enum State{ ForSale, Sold, Shipped, Received }
 
     /* Create a struct named Item.
       Here, add a name, sku, price, state, seller, and buyer
@@ -33,9 +34,6 @@ contract SupplyChain {
         address payable seller;
         address payable buyer;
     }
-
-    mapping(uint => Item) public items;
-
 
     /* Create 4 events with the same name as each possible State (see above)
       Each event should accept one argument, the sku*/
@@ -58,7 +56,7 @@ contract SupplyChain {
     modifier verifyCaller(address _address) {
         require(
             msg.sender == _address,
-            "Only verified role players can call this function"
+            "Only verified users can call this function"
             );
         _;
     }
@@ -66,7 +64,7 @@ contract SupplyChain {
     modifier restrictCaller(address _address) {
         require(
             msg.sender != _address,
-            "This caller cannot perform this function"
+            "Only verified users can call this function"
             );
         _;
     }
@@ -74,7 +72,7 @@ contract SupplyChain {
     modifier paidEnough(uint _price) {
         require(
             msg.value >= _price,
-            "You dont have enough money to make this purchase"
+            "Not enough funds for purchase"
             );
         _;
     }
